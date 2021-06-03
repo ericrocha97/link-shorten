@@ -1,4 +1,4 @@
 export interface MyLinksItens {
-  id: number;
+  id: string;
   link: string;
 }

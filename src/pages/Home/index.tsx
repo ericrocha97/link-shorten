@@ -4,7 +4,8 @@ import {
   TouchableWithoutFeedback, 
   KeyboardAvoidingView, 
   Platform,
-  Modal
+  Modal,
+  ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -13,6 +14,8 @@ import { Feather } from '@expo/vector-icons';
 import StatusBarPage from '../../components/StatusBarPage';
 import Menu from '../../components/Menu';
 import ModalLink from '../../components/ModalLink';
+import api from '../../services/api';
+
 
 import {
   ContainerLogo,
@@ -30,14 +33,61 @@ import {
 
 
 import LogoImg from "../../assets/logo.png"
+import Toast from 'react-native-root-toast';
+
+interface apiData {
+  id: string,
+  link: string,
+  long_url: string,
+}
 
 
 export default function Home() {
   const [url, setUrl] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<apiData>({} as apiData);
 
-  function handleShortLink() {
-    setModalVisible(true)
+  
+
+  async function handleShortLink() {
+    setLoading(true);
+    try {
+      const response = await api.post('/shorten',{
+        long_url: url,
+      })
+      const data = {
+        id: response.data.id,
+        link: response.data.link,
+        long_url: response.data.long_url
+      }
+      setData(data)
+      console.log(data)
+      setLoading(false)
+      setUrl('')
+      Keyboard.dismiss()
+      setModalVisible(true)
+
+    } catch (error) {
+      const toast = Toast.show('Erro ao gerar link, verifique a URL digitada.', {
+        position: Toast.positions.BOTTOM,
+        duration: Toast.durations.SHORT,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        backgroundColor: '#cc0000',
+        textColor: '#FFF',
+        containerStyle: {
+          marginBottom: 45,
+          borderRadius: 100,
+        },
+        delay: 0,
+      })
+      setTimeout(function hideToast() {
+        Toast.hide(toast);
+      }, 1200);
+      setLoading(false);
+    }
   }
 
   function handleCloseModal() {
@@ -83,7 +133,14 @@ export default function Home() {
             />
           </ContainerInput>
           <ButtonLink onPress={handleShortLink}>
-              <ButtonLinkText>Gerar link</ButtonLinkText>
+              {
+                loading ? (
+                  <ActivityIndicator color="#121212" size={24}/>
+                ) : (
+                  <ButtonLinkText>Gerar link</ButtonLinkText>
+                )
+              }
+             
           </ButtonLink>
         </KeyboardAvoidingView>
         <Modal
@@ -91,7 +148,7 @@ export default function Home() {
           transparent
           animationType="slide"
         >
-          <ModalLink onClose={handleCloseModal} />
+          <ModalLink onClose={handleCloseModal}  data={data}/>
         </Modal>
       </LinearGradient>
     </TouchableWithoutFeedback>

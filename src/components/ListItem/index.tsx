@@ -1,17 +1,28 @@
 import React from "react";
-import { Link, Container } from "./styles";
+
+import { Feather } from "@expo/vector-icons";
+
+import { ContainerButton, Container, Link } from "./styles";
 
 interface ListItemProps {
   data: {
-    id: number;
+    id: string;
     link: string;
   }
 }
 
 export default function ListItem({data}: ListItemProps) {
   return(
-    <Container>
-      <Link>{data.link}</Link>
-    </Container>
+      <ContainerButton
+        activeOpacity={0.9}
+        onPress={() => {}}
+      >
+        <Feather
+          name='link'
+          size={24}
+          color="#FFF"
+        />
+        <Link numberOfLines={1}>{data.link}</Link>
+      </ContainerButton>
   )
 }

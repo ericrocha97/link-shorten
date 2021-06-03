@@ -21,12 +21,17 @@ import {
 
 interface ModalLinkProps {
   onClose: () => void;
+  data: {
+    id: string;
+    link: string;
+    long_url: string;
+  }
 }
 
-export default function ModalLink({onClose}: ModalLinkProps){
+export default function ModalLink({onClose, data}: ModalLinkProps){
 
   function handleCopyLink(){
-    Clipboard.setString("https://cut.ly/lorem")
+    Clipboard.setString(data.link)
     const toast = Toast.show('Link copiado com sucesso', {
       position: Toast.positions.BOTTOM,
       duration: Toast.durations.SHORT,
@@ -49,7 +54,7 @@ export default function ModalLink({onClose}: ModalLinkProps){
   async function handleShare(){
     try {
       const result = await Share.share({
-        message: `Link: https://cut.ly/lorem`
+        message: `Link: ${data.link}`
       });
       
     } catch (error) {
@@ -78,13 +83,13 @@ export default function ModalLink({onClose}: ModalLinkProps){
         </Header>
         <LinkArea>
           <Title>Link encurtado:</Title>
-          <LongUrl numberOfLines={1}>https://ericrocha.dev</LongUrl>
+          <LongUrl numberOfLines={1}>{data.long_url}</LongUrl>
 
           <ShortLinkArea 
             activeOpacity={1}
             onPress={handleCopyLink}
           >
-            <ShortLinkUrl numberOfLines={1}>https://cut.ly/lorem</ShortLinkUrl>
+            <ShortLinkUrl numberOfLines={1}>{data.link}</ShortLinkUrl>
             <TouchableOpacity onPress={handleCopyLink}>
               <Feather 
                 name="copy"
