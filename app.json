@@ -4,9 +4,9 @@
         "slug": "link-shorten",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/iconLogo.png",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./assets/SplashScreen.png",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
         },

@@ -16,16 +16,13 @@ import {
   ShortLinkUrl,
   Title
 } from './styles';
+import { MyLinksTypes } from '../../@types/MyLinksTypes';
 
 
 
 interface ModalLinkProps {
   onClose: () => void;
-  data: {
-    id: string;
-    link: string;
-    long_url: string;
-  }
+  data: MyLinksTypes;
 }
 
 export default function ModalLink({onClose, data}: ModalLinkProps){

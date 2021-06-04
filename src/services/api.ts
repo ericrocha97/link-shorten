@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 // apagar antes do commit
-export const key = "copiar o token do .env local"; 
+export const key = "TOKEN DO .env"; 
 
 //https://api-ssl.bitly.com/v4/shorten
 const api = axios.create({

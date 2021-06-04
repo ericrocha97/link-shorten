@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { FlatList, Platform } from 'react-native';
-import { MyLinksItens } from '../../@types/MyLinksTypes';
+import { MyLinksTypes } from '../../@types/MyLinksTypes';
 
 export const Container = styled.View`
   flex: 1;
@@ -16,7 +16,7 @@ export const Title = styled.Text`
   margin-bottom: 10px;
 `;
 
-export const ListLinks = styled(FlatList as new () => FlatList<MyLinksItens>)`
+export const ListLinks = styled(FlatList as new () => FlatList<MyLinksTypes>)`
 
 `;
 

@@ -8,6 +8,8 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Toast from 'react-native-root-toast';
+
 
 import { Feather } from '@expo/vector-icons';
 
@@ -16,6 +18,10 @@ import Menu from '../../components/Menu';
 import ModalLink from '../../components/ModalLink';
 import api from '../../services/api';
 
+import { saveLinks } from '../../utils/storeLinks';
+
+
+import { MyLinksTypes } from '../../@types/MyLinksTypes';
 
 import {
   ContainerLogo,
@@ -33,20 +39,15 @@ import {
 
 
 import LogoImg from "../../assets/logo.png"
-import Toast from 'react-native-root-toast';
 
-interface apiData {
-  id: string,
-  link: string,
-  long_url: string,
-}
+
 
 
 export default function Home() {
   const [url, setUrl] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<apiData>({} as apiData);
+  const [data, setData] = useState<MyLinksTypes>({} as MyLinksTypes);
 
   
 
@@ -62,11 +63,11 @@ export default function Home() {
         long_url: response.data.long_url
       }
       setData(data)
-      console.log(data)
       setLoading(false)
       setUrl('')
       Keyboard.dismiss()
       setModalVisible(true)
+      await saveLinks("@URL-SHORTEN:links",data);
 
     } catch (error) {
       const toast = Toast.show('Erro ao gerar link, verifique a URL digitada.', {

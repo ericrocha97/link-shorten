@@ -1,4 +1,5 @@
-export interface MyLinksItens {
-  id: string;
-  link: string;
+export interface MyLinksTypes {
+  id: string,
+  link: string,
+  long_url: string,
 }
